@@ -1,41 +1,4 @@
-const quotesArray = [
-    {
-        text: "The best way to get started is to quit talking and begin doing.",
-        category: 'inspiration'
-    },
-    {
-        text: "Success is not final, failure is not fatal: It is the courage to continue that counts",
-        category: 'inspiration'
-    },
-    {
-        text: "Your time is limited, so don't waste it living someone else's life.",
-        category: 'inspiration'
-    },
-    {
-        text: "Knowing yourself is the beginning of all wisdom." ,
-        category: 'wisdom'
-    },
-    {
-        text: "Do not dwell in the past, do not dream of the future, concentrate the mind on the present moment.",
-        category: 'wisdom'
-    },
-    {
-        text: "He who has a why to live can bear almost any how.",
-        category: 'wisdom'
-    },
-    {
-        text: "I am so clever that sometimes I don't understand a single word of what I am saying.",
-        category: 'funny'
-    },
-    {
-        text: "I always wanted to be somebody, but now I realize I should have been more specific.",
-        category: 'funny'
-    },
-    {
-        text: "If you think nobody cares if you're alive, try missing a couple of payments.",
-        category: 'funny'
-    },
-]
+const quotesArray = JSON.parse(localStorage.getItem('quotesArray')) || [];
 
     const quoteOutput = document.getElementById('quoteDisplay');
     const showBtn = document.getElementById('newQuote');
@@ -69,7 +32,7 @@ function addQuote() {
         const newQuoteElement = document.createElement("p");
         newQuoteElement.textContent = newQuote.text;
         quoteOutput.appendChild(newQuoteElement);
-
+        localStorage.setItem("quotesArray", JSON.stringify(quotesArray));
         alert("Quote added!");
     } else {
         alert("Please fill the fields");
@@ -89,4 +52,35 @@ function createAddQuoteForm() {
         selfQuote.style.display = 'none';
     }
 }
-create.addEventListener('click', createAddQuoteForm)
+create.addEventListener('click', createAddQuoteForm);
+
+const download = document.querySelector('.download');
+
+function downloadQuote() {
+   
+    const data = JSON.stringify(quotesArray);
+    const blob = new Blob([data], { type: "application/json" })
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "quotes.json";
+    a.click();
+
+    URL.revokeObjectURL(url);
+}
+
+download.addEventListener('click', downloadQuote);
+
+function importFromJsonFile(event) {
+    const fileReader = new FileReader();
+    fileReader.onload = function (event) {
+        const importedQuotes = JSON.parse(event.target.result);
+        quotesArray.push(...importedQuotes);
+        saveQuotes();
+        alert('Quotes imported successfully!');
+    };
+    fileReader.readAsText(event.target.files[0]);
+}
+function saveQuotes() {
+    localStorage.setItem("quotesArray", JSON.stringify(quotesArray));
+}
