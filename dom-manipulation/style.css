@@ -1,0 +1,75 @@
+body{
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5vh;
+    font-family: 'poppins', sans-serif;
+    background-color: var(--body-color);
+    color: var(--font-color);
+    font-size: 18px;
+}
+
+
+:root{
+    --border-color: #17405a;
+    --border-color-active: #3aa3e4;
+    --input-color: #1c2839;
+    --button-color: #05F283;
+    --body-color: #002B56;
+    --font-color: #ffffff;
+}
+
+.default, .selfQuote{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#quoteDisplay, #newQuoteText, #newQuoteCategory{
+    box-sizing: content-box;
+    width: clamp(400px, 450px, 600px);
+    height: clamp(36px, 40px, 44px);
+    background-color: var(--input-color);
+    border: 1px solid var(--border-color);
+    border-radius: 22px;
+    padding: clamp(12px, 14px, 20px) 1em;
+    margin-top: 5vh;
+    margin-bottom: 2vh;
+    color: var(--font-color);
+    font-size: clamp(12px, 14px, 26px);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow-wrap: break-word;
+    text-wrap: balance;
+}
+#newQuote, #addQuote{
+    width: clamp(400px, 450px, 600px);
+    height: clamp(36px, 40px, 48px);
+    background-color: var(--button-color);
+    color: var(--body-color);
+    font-weight: bold;
+    font-size: clamp(12px, 14px, 26px);
+    font-family: 'poppins', sans-serif;
+    border-radius: 22px;
+    padding: clamp(12px, 14px, 20px) 1em;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#newQuoteCategory{
+    margin-top: 1vh;
+}
+
+#newQuoteText:focus,
+#newQuoteCategory:focus{
+    border: 1px solid var(--border-color-active);
+    outline: none;
+}
