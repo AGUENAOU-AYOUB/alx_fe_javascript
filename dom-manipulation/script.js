@@ -42,7 +42,7 @@ const quotesArray = [
 
     function showRandomQuote() {
         const randomIndex = Math.floor(Math.random() * quotesArray.length);
-        quoteOutput.textContent = quotesArray[randomIndex].text;
+        quoteOutput.innerHTML = quotesArray[randomIndex].text;
         localStorage.setItem('ayoub', randomIndex);
         return quoteOutput;
 
