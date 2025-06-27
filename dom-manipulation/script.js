@@ -64,3 +64,17 @@ function addQuote() {
         alert('please fill the fields');
     }
 }
+
+
+//show add quote form
+const selfQuote = document.querySelector('.selfQuote');
+const create = document.querySelector('.create');
+
+function createAddQuoteForm() {
+    if (getComputedStyle(selfQuote).display == 'none') {
+        selfQuote.style.display = 'flex';
+    } else {
+        selfQuote.style.display = 'none';
+    }
+}
+create.addEventListener('click', createAddQuoteForm)
