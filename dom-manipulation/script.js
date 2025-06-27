@@ -40,13 +40,17 @@ const quotesArray = [
     const quoteOutput = document.getElementById('quoteDisplay');
     const showBtn = document.getElementById('newQuote');
 
-    function showRandomQuote() {
-        const randomIndex = Math.floor(Math.random() * quotesArray.length);
-        quoteOutput.innerHTML = quotesArray[randomIndex].text;
-        localStorage.setItem('ayoub', randomIndex);
-        return quoteOutput;
+function showRandomQuote() {
+    const selectedQuote = quotesArray[Math.floor(Math.random() * quotesArray.length)];
 
-    }
+
+    quoteOutput.innerHTML = "";
+
+    const quoteParagraph = document.createElement("p");
+    quoteParagraph.textContent = selectedQuote.text;
+    quoteOutput.appendChild(quoteParagraph);
+}
+
 
     showBtn.addEventListener('click', showRandomQuote)
     
@@ -55,15 +59,23 @@ function addQuote() {
     const newQuoteCategory = document.getElementById('newQuoteCategory').value.trim();
 
     if (newQuoteText && newQuoteCategory) {
-        quotesArray.push({
+        const newQuote = {
             text: newQuoteText,
             category: newQuoteCategory
-        });
-        alert('quote added');
+        };
+        quotesArray.push(newQuote);
+
+        quoteOutput.innerHTML = "";
+        const newQuoteElement = document.createElement("p");
+        newQuoteElement.textContent = newQuote.text;
+        quoteOutput.appendChild(newQuoteElement);
+
+        alert("Quote added!");
     } else {
-        alert('please fill the fields');
+        alert("Please fill the fields");
     }
 }
+
 
 
 //show add quote form
