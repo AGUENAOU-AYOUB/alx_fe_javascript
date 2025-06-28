@@ -240,24 +240,19 @@ function saveQuotes() {
 // Populate the dropdown menu with unique categories
 function populateCategories() {
     const previousValue = categoryFilter.value;
-    const categories = [];
 
-    for (let i = 0; i < quotesArray.length; i++) {
-        const cat = quotesArray[i].category.toLowerCase();
-        if (!categories.includes(cat)) {
-            categories.push(cat);
-        }
-    }
+    // Extract unique categories using map
+    const categories = [...new Set(quotesArray.map(quote => quote.category.toLowerCase()))];
 
     // Clear and reset dropdown
     categoryFilter.innerHTML = '<option value="all">All Categories</option>';
 
-    for (let j = 0; j < categories.length; j++) {
+    categories.forEach(category => {
         const option = document.createElement("option");
-        option.value = categories[j];
-        option.textContent = categories[j];
+        option.value = category;
+        option.textContent = category;
         categoryFilter.appendChild(option);
-    }
+    });
 
     // Restore previous selection
     if (previousValue) {
@@ -270,16 +265,12 @@ function filterQuotes() {
     const selectedCategory = categoryFilter.value.toLowerCase();
     localStorage.setItem('selectedCategory', selectedCategory);
 
+    // Filter quotes based on selected category
     let displayQuotes = [];
-
     if (selectedCategory === 'all') {
         displayQuotes = quotesArray;
     } else {
-        for (let i = 0; i < quotesArray.length; i++) {
-            if (quotesArray[i].category.toLowerCase() === selectedCategory) {
-                displayQuotes.push(quotesArray[i]);
-            }
-        }
+        displayQuotes = quotesArray.filter(quote => quote.category.toLowerCase() === selectedCategory);
     }
 
     quoteOutput.innerHTML = "";
