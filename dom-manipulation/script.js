@@ -169,7 +169,6 @@ async function postQuoteToServer(quote) {
     }
 }
 
-// Sync with server
 async function syncQuotes() {
     const serverQuotes = await fetchQuotesFromServer();
     const localData = JSON.stringify(quotesArray);
@@ -180,9 +179,10 @@ async function syncQuotes() {
         quotesArray = serverQuotes;
         populateCategories();
         restoreLastFilter();
-        showNotification("Quotes synced from server.");
+        showNotification("Quotes synced with server!");
     }
 }
+
 
 // Periodic sync
 setInterval(syncQuotes, 30000);
