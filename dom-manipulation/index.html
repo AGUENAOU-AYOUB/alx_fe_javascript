@@ -2,35 +2,39 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
     <title>Dynamic Quote Generator</title>
 </head>
 
 <body>
     <h1>Dynamic Quote Generator</h1>
-    <div class="default">
-    <select id="categoryFilter" onchange="filterQuotes()" class="selection">
-        <option class="selection" value="all">All Categories</option>
-        <!-- Dynamically populated categories -->
-    </select>
-    <div id="quoteDisplay"></div>
-    <button id="newQuote">Show New Quote</button>
+
+    <!-- Notification -->
+    <div id="notification"
+        style="display:none; position:fixed; top:1em; background:#05F283; color:#002B56; padding:1em; border-radius:8px; z-index:1000;">
     </div>
+
+    <div class="default">
+        <select id="categoryFilter" class="selection">
+            <option value="all">All Categories</option>
+        </select>
+        <div id="quoteDisplay"></div>
+        <button id="newQuote">Show New Quote</button>
+    </div>
+
     <button class="create">Create a new form</button>
     <div class="selfQuote">
         <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
         <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
         <button onclick="addQuote()" id="addQuote">Add Quote</button>
     </div>
-    <button class="download"  >Export Quotes</button>
-    <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" class="import"/>
+
+    <button class="download">Export Quotes</button>
+    <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" class="import" />
+
     <script src="script.js"></script>
 </body>
 
