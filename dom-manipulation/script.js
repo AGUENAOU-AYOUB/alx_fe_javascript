@@ -305,33 +305,61 @@ categoryFilter.addEventListener('change', filterQuotes);
 populateCategories();
 restoreLastFilter();
 
-function syncWithServer() {
-    fetch("https://jsonplaceholder.typicode.com/posts") // Simulated server
+// Required mock API endpoint
+const SERVER_URL = "https://jsonplaceholder.typicode.com/posts";
+
+// Required function 1: Fetch quotes from server
+function fetchQuotesFromServer() {
+    return fetch(SERVER_URL)
         .then(response => response.json())
-        .then(serverData => {
-            // Simulate server data format
-            const serverQuotes = serverData.slice(0, 5).map(post => ({
+        .then(data => {
+            // Simulate converting posts to quotes
+            return data.slice(0, 10).map(post => ({
                 text: post.title,
                 category: "server"
             }));
-
-            const localData = JSON.stringify(quotesArray);
-            const serverDataJSON = JSON.stringify(serverQuotes);
-
-            if (localData !== serverDataJSON) {
-                // Overwrite local quotes with server quotes (server wins)
-                quotesArray = serverQuotes;
-                saveQuotes();
-                populateCategories();
-                restoreLastFilter();
-
-                alert("⚠️ Quotes synced from server. Local data was updated.");
-            }
         })
         .catch(error => {
-            console.error("Sync error:", error);
+            console.error("Failed to fetch from server:", error);
+            return [];
         });
 }
 
-// Run every 30 seconds
-setInterval(syncWithServer, 30000);
+// Required function 2: Post quotes to server (simulate)
+function postQuoteToServer(quote) {
+    return fetch(SERVER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(quote)
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log("Quote posted to server:", data);
+        })
+        .catch(error => {
+            console.error("Failed to post to server:", error);
+        });
+}
+
+// Required function 3: Sync logic with server
+function syncQuotes() {
+    fetchQuotesFromServer().then(serverQuotes => {
+        const localQuotes = JSON.parse(localStorage.getItem("quotesArray")) || [];
+
+        const serverData = JSON.stringify(serverQuotes);
+        const localData = JSON.stringify(localQuotes);
+
+        if (serverData !== localData) {
+            // Simulate conflict resolution: server wins
+            localStorage.setItem("quotesArray", serverData);
+            quotesArray = serverQuotes;
+            populateCategories();
+            restoreLastFilter();
+
+            alert("⚠️ Quotes updated from server (sync applied).");
+        }
+    });
+}
+
+// Required: periodically check for updates
+setInterval(syncQuotes, 30000); // every 30 seconds
