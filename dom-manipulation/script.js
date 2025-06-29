@@ -304,3 +304,34 @@ categoryFilter.addEventListener('change', filterQuotes);
 // Initialize on page load
 populateCategories();
 restoreLastFilter();
+
+function syncWithServer() {
+    fetch("https://jsonplaceholder.typicode.com/posts") // Simulated server
+        .then(response => response.json())
+        .then(serverData => {
+            // Simulate server data format
+            const serverQuotes = serverData.slice(0, 5).map(post => ({
+                text: post.title,
+                category: "server"
+            }));
+
+            const localData = JSON.stringify(quotesArray);
+            const serverDataJSON = JSON.stringify(serverQuotes);
+
+            if (localData !== serverDataJSON) {
+                // Overwrite local quotes with server quotes (server wins)
+                quotesArray = serverQuotes;
+                saveQuotes();
+                populateCategories();
+                restoreLastFilter();
+
+                alert("⚠️ Quotes synced from server. Local data was updated.");
+            }
+        })
+        .catch(error => {
+            console.error("Sync error:", error);
+        });
+}
+
+// Run every 30 seconds
+setInterval(syncWithServer, 30000);
